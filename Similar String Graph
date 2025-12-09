@@ -1,0 +1,48 @@
+public class Solution {
+    public int NumSimilarGroups(string[] strs) {
+        List<int>[] adj = new List<int>[strs.Length];
+        for(int i=0;i<strs.Length;i++){
+            adj[i]= new List<int>();
+        }
+        for(int i=0;i<strs.Length;i++){
+            for(int j=i+1;j<strs.Length;j++){
+                if(IsMatch(strs[i],strs[j])){
+                    adj[i].Add(j);
+                    adj[j].Add(i);
+                }
+            }
+        }
+        bool[] vis= new bool[strs.Length];
+        int aans=0;
+        for(int i=0;i<strs.Length;i++){
+            if(!vis[i]){
+                DFS(adj,vis,i);
+                aans++;
+            }
+        }
+        return aans;
+    }
+
+    void DFS(List<int>[] adj , bool[] vis, int sr){
+        vis[sr]=true;
+        foreach(int s in adj[sr]){
+            if(!vis[s]){
+                vis[s]=true;
+                DFS(adj,vis,s);
+            }
+        }
+    }
+
+    bool IsMatch(string s1, string s2){
+        if(s1.Length!=s2.Length){
+            return false;
+        }
+        int count=0;
+        for(int i=0;i<s1.Length;i++){
+            if(s1[i]!=s2[i]){
+                count++;
+            }
+        }
+        return count<=2;
+    }
+}
