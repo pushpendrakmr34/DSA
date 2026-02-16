@@ -16,6 +16,19 @@ public class HelloWorld
        int res = QueryMin(0,4,0,4,segmentTree,0);//Query(0,4,3,4,segmentTree,0);
        Console.WriteLine(res);
     }
+     static void PointUpdate(int[] sg, int l, int r , int ind,int curIndex, int val){
+        if(l==r){
+            sg[ind]=val;
+            return;
+        }
+        int mid = (l+r)/2;
+         if(curIndex<=mid){
+            PointUpdate(sg,l,mid,ind*2+1,curIndex,val);
+        }else{
+            PointUpdate(sg,mid+1,r,ind*2+2,curIndex,val);
+        }
+        sg[ind]= Math.Min(sg[ind*2+1],sg[ind*2+2]);
+    }
     static int Query(int l,int r, int s, int e, int[]sg, int ind){
         if(l>e||r<s){
             return 0;
